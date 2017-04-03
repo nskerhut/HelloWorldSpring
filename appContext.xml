@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<context:property-placeholder location="src/main/java/myApp.properties"/>
+	<bean id="HelloWorldModel" class="com.csra.HelloWorldModel" />	
+	
+	<bean id="HelloWorld" class="com.csra.HelloWorldModel" >
+		<constructor-arg index="0" value="HelloWorld from appContext ctor!!!"></constructor-arg>
+	</bean>
+
+	<bean id="HelloWorldProperty" class="com.csra.HelloWorldModel" >
+		<property name="value" value="HelloWorld from appContext prop!!!"></property>
+	</bean>
+	
+	<bean id="HelloWorldPNamespace" class="com.csra.HelloWorldModel" p:value="Hello World!! p namespace"/>
+	
+	<bean id="HelloWorldSet" class="com.csra.HelloWorldSet" >
+		<property name="helloWorlds">
+			<list>
+				<value>Hello from Mercury!</value>
+				<value>Hello from Venus!</value>
+				<value>Hello from Earth!</value>
+				<value>Hello from Mars!</value>
+				<value>Hello from Jupiter!</value>
+				<value>Hello from Saturn!</value>
+				<value>Hello from Neptune!</value>
+			</list>
+			<map>
+			<entry ></entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="HelloWorldCtorInjectId" class="com.csra.HelloWorldSet" >
+		<constructor-arg index="0" ref="HelloWorldModel">
+		</constructor-arg>
+	</bean>
+	<bean id="HelloWorldCtorInjectName" class="com.csra.HelloWorldSet" >
+		<constructor-arg name="myHelloWorldModel" ref="HelloWorldModel">
+		</constructor-arg>
+	</bean>
+	<bean id="HelloWorldPropFile" class="com.csra.HelloWorldModel" >
+		<property name="value" value="${def-helloworld}"></property>
+	</bean>
+	<bean id="HelloWorldOuter" class="com.csra.HelloWorldSet" >
+		<property name="helloWorldModel" >
+			<bean id="HelloWorldInner" class="com.csra.HelloWorldModel" p:value="HelloWorld inner bean!!"
+			scope="singleton"
+			init-method="initMethod"
+			destroy-method="destroyMethod"
+			> </bean>
+		</property>
+	</bean>
+</beans>
